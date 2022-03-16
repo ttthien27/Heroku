@@ -4,8 +4,7 @@ Implementation-Version: 1.0
 Built-By: Admin
 Implementation-Vendor-Id: com.webservice
 Build-Jdk: 1.8.0_181
-Implementation-URL: https://projects.spring.io/spring-boot/spring-boot
- /
+Implementation-URL: https://spring.io/projects/spring-boot/spring-boot
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.
 
