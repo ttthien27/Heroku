@@ -14,6 +14,11 @@ import com.webservice.dto.Document;
 public class LuceneAPI {
 	
 	
+	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
+    public String welcome() {
+        return "Hello World";
+    }
+	
 	@RequestMapping(value = "/showStr", method = RequestMethod.GET)
     @ResponseBody
     public Document showStr() {
