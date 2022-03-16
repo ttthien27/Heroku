@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.webservice.dto.Document;
 
 
-/*@Controller
+@Controller
 
 public class LuceneAPI {
 	
@@ -37,8 +37,9 @@ public class LuceneAPI {
         return document;
     }
 
-}*/
-@RestController
+}
+
+/*@RestController
 
 public class LuceneAPI {
 
@@ -50,4 +51,4 @@ public class LuceneAPI {
 
    }
 
-}
+}*/
