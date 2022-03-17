@@ -1,6 +1,9 @@
 package com.webservice.api;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,12 +43,14 @@ public class LuceneAPI {
     }
 	
 	@RequestMapping(value = "/getFile", method = RequestMethod.GET)
-    public String getFileRoot() {
-		String str="";
-		 File[] roots = File.listRoots();
-	        for (File root : roots) {
-	            str = str + root.getAbsolutePath()+" ";
-	        }
+    public String getFileRoot() throws IOException {
+		String string = "lucene-app-webservice.herokuapp.com/Index/test.txt";
+		FileReader fr = new FileReader(string);
+        String str = new String();
+        int i;
+        while ((i = fr.read()) != -1) {
+            str = str + (char) i;
+        }
         return str;
     }
 
