@@ -22,6 +22,8 @@ import com.webservice.dto.Document;
 public class LuceneAPI {
 	
 	
+	private FileReader fr;
+
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String welcome() {
         return "Hello World";
@@ -43,15 +45,17 @@ public class LuceneAPI {
     }
 	
 	@RequestMapping(value = "/getFile", method = RequestMethod.GET)
-    public String getFileRoot() throws IOException {
+	@ResponseBody
+    public Document getFileRoot() throws IOException {
 		String string = "src/main/resources/test.txt";
-		FileReader fr = new FileReader(string);
+		fr = new FileReader(string);
         String str = new String();
         int i;
         while ((i = fr.read()) != -1) {
             str = str + (char) i;
         }
-        return str;
+        Document document = new Document(str, str);
+        return document;
     }
 
 }
