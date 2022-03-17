@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.LowerCaseFilter;
-import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -21,12 +19,12 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 public class Searcher {
+	
 	IndexSearcher indexSearcher;
     //QueryParser queryParser;
     Query query;
 
-    public List<com.webservice.dto.Document> Searcher(String pathIndex, String search) {
-        String str = "";
+    public List<com.webservice.dto.Document> Search(String pathIndex, String search) {
         List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
         try {
             //String pathIndex = "D:\\lucene\\IndexJson";
@@ -62,16 +60,16 @@ public class Searcher {
             TopDocs docs = indexSearcher.search(query, top);
 
             System.out.printf("%-10s%-150s\n", "Rank", "Description", "Score", "Title");
-            int rank = 1;
+            //int rank = 1;
             for (ScoreDoc scoreDoc : docs.scoreDocs) {
-                double score = scoreDoc.score;
+                //double score = scoreDoc.score;
                 Document documentFromSearch = indexSearcher.doc(scoreDoc.doc);
                 String title = documentFromSearch.get("title");
                 String description = documentFromSearch.get("description");
                 //str = str + rank + " " + description + "@";
                 //System.out.printf("%-10d%-150s\n", rank, description, score, title);
                 list.add(new com.webservice.dto.Document(title, description));
-                rank++;
+                //rank++;
             }
             index.close();
             dir.close();
