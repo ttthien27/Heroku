@@ -1,5 +1,7 @@
 package com.webservice.api;
 
+import java.io.File;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +37,16 @@ public class LuceneAPI {
     	String str=objectNode.get("str").asText();
     	Document document = new Document(str, str);
         return document;
+    }
+	
+	@RequestMapping(value = "/getFile", method = RequestMethod.GET)
+    public String getFileRoot() {
+		String str="";
+		 File[] roots = File.listRoots();
+	        for (File root : roots) {
+	            str = str + root.getAbsolutePath()+" ";
+	        }
+        return str;
     }
 
 }
