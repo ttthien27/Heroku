@@ -18,6 +18,8 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+import com.webservice.lucene.VNCoreNLP;
+
 public class Searcher {
 	
 	IndexSearcher indexSearcher;
@@ -46,8 +48,8 @@ public class Searcher {
 
             String field = "paragraph";
             QueryParser parser = new QueryParser(field, a);
-            //String queryString = useVNCoreNLP(search);
-            String queryString = (search);
+            String queryString = VNCoreNLP.useVNCoreNLP(search);
+            //String queryString = (search);
             Query query = parser.parse(queryString);
             System.out.println(query);
 
@@ -59,7 +61,7 @@ public class Searcher {
             int top = 10;
             TopDocs docs = indexSearcher.search(query, top);
 
-            System.out.printf("%-10s%-150s\n", "Rank", "Description", "Score", "Title");
+            //System.out.printf("%-10s%-150s\n", "Rank", "Description", "Score", "Title");
             //int rank = 1;
             for (ScoreDoc scoreDoc : docs.scoreDocs) {
                 //double score = scoreDoc.score;
