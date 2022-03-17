@@ -67,7 +67,7 @@ public class LuceneAPI {
     public List<Document> showDocument() {
 		List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
 		Searcher s = new Searcher();
-		list = s.Searcher("src\\main\\resources\\Index", "thiên tai");
+		list = s.Searcher("classpath\\Index", "thiên tai");
         return list;
     }
 
