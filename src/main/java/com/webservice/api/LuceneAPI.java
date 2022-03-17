@@ -51,7 +51,7 @@ public class LuceneAPI {
 	@RequestMapping(value = "/getFile", method = RequestMethod.GET)
 	@ResponseBody
     public Document getFileRoot() throws IOException {
-		String string = "src/main/resources/Index/test.txt";
+		String string = "src/main/resources/Txt/test.txt";
 		fr = new FileReader(string);
         String str = new String();
         int i;
@@ -64,10 +64,10 @@ public class LuceneAPI {
 	
 	@RequestMapping(value = "/showDocument", method = RequestMethod.GET)
     @ResponseBody
-    public List<Document> showDocument(@RequestBody ObjectNode objectNode) {
+    public List<Document> showDocument() {
 		List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
 		Searcher s = new Searcher();
-		list = s.Searcher("src/main/resources/Index", "thiên tai");
+		list = s.Searcher("src\\main\\resources\\Index", "thiên tai");
         return list;
     }
 
