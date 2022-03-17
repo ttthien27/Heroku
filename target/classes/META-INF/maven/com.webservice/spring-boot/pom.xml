@@ -37,8 +37,11 @@
                     
                     <version>7.4.0</version>
                     
-                    <systemPath>${pom.basedir}/libs/lucene-queryparser-7.4.0.jar</systemPath>
-
+                    <systemPath>${project.basedir}/src/main/resources/libs/lucene-queryparser-7.4.0.jar</systemPath>
+                    
+                    <type>jar</type>
+                    
+                    <optional>true</optional>
              </dependency>
              
              <dependency>
@@ -51,17 +54,21 @@
                     
                     <version>7.4.0</version>
                     
-                    <systemPath>${pom.basedir}/libs/lucene-core-7.4.0.jar</systemPath>
-
+                    <systemPath>${project.basedir}/src/main/resources/libs/lucene-core-7.4.0.jar</systemPath>
+                    
+                    <type>jar</type>
+                    
+                    <optional>true</optional>
              </dependency>
 
        </dependencies>
+       
        <build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+			</plugin>		
 		</plugins>
 	</build>
 </project>
