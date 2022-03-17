@@ -44,7 +44,7 @@ public class LuceneAPI {
 	
 	@RequestMapping(value = "/getFile", method = RequestMethod.GET)
     public String getFileRoot() throws IOException {
-		String string = "/Index/test.txt";
+		String string = "src/main/resources/test.txt";
 		FileReader fr = new FileReader(string);
         String str = new String();
         int i;
