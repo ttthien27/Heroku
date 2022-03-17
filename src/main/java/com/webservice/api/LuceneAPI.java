@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.webservice.dto.Document;
+import com.webservice.lucene.*;
+
 
 
 @Controller
@@ -56,6 +60,15 @@ public class LuceneAPI {
         }
         Document document = new Document(str, str);
         return document;
+    }
+	
+	@RequestMapping(value = "/showDocument", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Document> showDocument(@RequestBody ObjectNode objectNode) {
+		List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
+		Searcher s = new Searcher();
+		list = s.Searcher("src/main/resources/Index", "thiên tai");
+        return list;
     }
 
 }

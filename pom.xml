@@ -26,6 +26,34 @@
                     <artifactId>spring-boot-starter-web-services</artifactId>
 
              </dependency>
+             
+              <dependency>
+
+                    <groupId>lucenequeryparser</groupId>
+
+                    <artifactId>lucenequeryparser</artifactId>
+                    
+                    <scope>system</scope>
+                    
+                    <version>7.4.0</version>
+                    
+                    <systemPath>${project.basedir}/libs/lucene-queryparser-7.4.0.jar</systemPath>
+
+             </dependency>
+             
+             <dependency>
+
+                    <groupId>lucenecore</groupId>
+
+                    <artifactId>lucenecore</artifactId>
+                    
+                    <scope>system</scope>
+                    
+                    <version>7.4.0</version>
+                    
+                    <systemPath>${project.basedir}/libs/lucene-core-7.4.0.jar</systemPath>
+
+             </dependency>
 
        </dependencies>
        <build>
