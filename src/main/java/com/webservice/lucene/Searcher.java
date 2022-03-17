@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.LowerCaseFilter;
+import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -19,6 +21,8 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 import com.webservice.lucene.VNCoreNLP;
+import com.webservice.lucene.Stopword;
+
 
 public class Searcher {
 	
@@ -31,7 +35,7 @@ public class Searcher {
         try {
             //String pathIndex = "D:\\lucene\\IndexJson";
 
-            //CharArraySet stopWords = Stopword.getStopwords();
+            CharArraySet stopWords = Stopword.getStopwords();
 
             Analyzer a = new Analyzer() {
                 @Override
@@ -41,7 +45,7 @@ public class Searcher {
                     // Step 2: transforming all tokens into lowercased ones (recommended for the majority of the problems)
                     ts = new Analyzer.TokenStreamComponents(ts.getTokenizer(), new LowerCaseFilter(ts.getTokenStream()));
 
-                    //ts = new Analyzer.TokenStreamComponents(ts.getTokenizer(), new StopFilter(ts.getTokenStream(), stopWords));
+                    ts = new Analyzer.TokenStreamComponents(ts.getTokenizer(), new StopFilter(ts.getTokenStream(), stopWords));
                     return ts;
                 }
             };

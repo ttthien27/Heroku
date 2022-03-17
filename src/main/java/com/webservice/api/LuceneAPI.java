@@ -64,10 +64,11 @@ public class LuceneAPI {
 	
 	@RequestMapping(value = "/showDocument", method = RequestMethod.GET)
     @ResponseBody
-    public List<Document> showDocument() {
+    public List<Document> showDocument(@RequestBody ObjectNode objectNode) {
+		String query=objectNode.get("query").asText();
 		List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
 		Searcher s = new Searcher();
-		list = s.Search("src/main/resources/Index/", "thiên tai");
+		list = s.Search("src/main/resources/Index/", query);
         return list;
     }
 
