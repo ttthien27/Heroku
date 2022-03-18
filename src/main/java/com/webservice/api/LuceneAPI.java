@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.webservice.dto.Document;
+import com.webservice.dto.Query;
 import com.webservice.lucene.*;
 
 
@@ -69,6 +70,15 @@ public class LuceneAPI {
 		List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
 		Searcher s = new Searcher();
 		list = s.Search("src/main/resources/Index/", query);
+        return list;
+    }
+	
+	@RequestMapping(value = "/showDocument2", method = RequestMethod.POST)
+    @ResponseBody
+    public List<Document> showDocument2(@RequestBody Query query) {
+		List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
+		Searcher s = new Searcher();
+		list = s.Search("src/main/resources/Index/", query.getQuery());
         return list;
     }
 
