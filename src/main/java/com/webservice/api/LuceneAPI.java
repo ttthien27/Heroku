@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -73,12 +74,14 @@ public class LuceneAPI {
         return list;
     }
 	
-	@RequestMapping(value = "/showDocument2", method = RequestMethod.POST)
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
     @ResponseBody
-    public List<Document> showDocument2(@RequestBody Query query) {
+    public List<Document> search(@RequestParam String query) {
+		String str = query.replaceAll("@", " ");
+		System.out.println(str);
 		List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
 		Searcher s = new Searcher();
-		list = s.Search("src/main/resources/Index/", query.getQuery());
+		list = s.Search("src/main/resources/Index/", str);
         return list;
     }
 
