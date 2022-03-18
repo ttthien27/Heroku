@@ -62,7 +62,7 @@ public class LuceneAPI {
         return document;
     }
 	
-	@RequestMapping(value = "/showDocument", method = RequestMethod.GET)
+	@RequestMapping(value = "/showDocument", method = RequestMethod.POST)
     @ResponseBody
     public List<Document> showDocument(@RequestBody ObjectNode objectNode) {
 		String query=objectNode.get("query").asText();
