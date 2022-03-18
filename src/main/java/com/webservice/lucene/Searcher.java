@@ -74,7 +74,7 @@ public class Searcher {
                 String description = documentFromSearch.get("description");
                 //str = str + rank + " " + description + "@";
                 //System.out.printf("%-10d%-150s\n", rank, description, score, title);
-                list.add(new com.webservice.dto.Document(title, description));
+                list.add(new com.webservice.dto.Document("docId",title, description));
                 //rank++;
             }
             index.close();

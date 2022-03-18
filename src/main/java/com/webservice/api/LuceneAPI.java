@@ -36,7 +36,7 @@ public class LuceneAPI {
 	@RequestMapping(value = "/showStr", method = RequestMethod.GET)
     @ResponseBody
     public Document showStr() {
-    	Document document = new Document("Test", "Test");
+    	Document document = new Document("Test","Test", "Test");
         return document;
     }
 
@@ -44,7 +44,7 @@ public class LuceneAPI {
     @ResponseBody
     public Document showStrtoStr(@RequestBody ObjectNode objectNode) {
     	String str=objectNode.get("str").asText();
-    	Document document = new Document(str, str);
+    	Document document = new Document(str,str, str);
         return document;
     }
 	
@@ -58,7 +58,7 @@ public class LuceneAPI {
         while ((i = fr.read()) != -1) {
             str = str + (char) i;
         }
-        Document document = new Document(str, str);
+        Document document = new Document(str,str, str);
         return document;
     }
 	
