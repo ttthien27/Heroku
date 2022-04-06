@@ -1,24 +1,19 @@
 package com.webservice.api;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.webservice.dto.Document;
-import com.webservice.dto.Query;
 import com.webservice.lucene.*;
 
 
@@ -64,7 +59,7 @@ public class LuceneAPI {
         return document;
     }
 	
-	@RequestMapping(value = "/showDocument", method = RequestMethod.POST)
+	@RequestMapping(value = "/searchDocument", method = RequestMethod.GET)
     @ResponseBody
     public List<Document> showDocument(@RequestBody ObjectNode objectNode) {
 		String query=objectNode.get("query").asText();
