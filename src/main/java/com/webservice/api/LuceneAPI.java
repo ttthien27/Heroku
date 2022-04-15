@@ -69,6 +69,16 @@ public class LuceneAPI {
         return list;
     }
 	
+	@RequestMapping(value = "/showDocument", method = RequestMethod.POST)
+    @ResponseBody
+    public List<Document> showDocument2(@RequestBody ObjectNode objectNode) {
+		String query=objectNode.get("query").asText();
+		List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
+		Searcher s = new Searcher();
+		list = s.Search("src/main/resources/Index/", query);
+        return list;
+    }
+	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
     @ResponseBody
     public List<Document> search(@RequestParam String query) {
