@@ -16,11 +16,13 @@ public class VNCoreNLP {
         String strThenVNCore = "";
         for (Word i : annotation.getWords()) {
             {
-                if(i.toString().length()!=0)
-                strThenVNCore = strThenVNCore + " " +i.getForm();
+            	if(i.toString().length()!=0)
+                    if(strThenVNCore.length()==0)
+                        strThenVNCore = strThenVNCore +i.getForm();
+                    else strThenVNCore = strThenVNCore + " " +i.getForm();
             }
         }
-        strThenVNCore = strThenVNCore + " ";
+        strThenVNCore = strThenVNCore + "";
         return strThenVNCore;
     }
 }
