@@ -32,8 +32,8 @@ public class Searcher {
     //QueryParser queryParser;
     Query query;
 
-    public List<com.webservice.dto.Document> Search(String pathIndex, String search) {
-        List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
+    public List<com.webservice.dto.DocumentSearch> Search(String pathIndex, String search) {
+        List<com.webservice.dto.DocumentSearch> list = new ArrayList<com.webservice.dto.DocumentSearch>();
         try {
             //String pathIndex = "D:\\lucene\\IndexJson";
 
@@ -52,7 +52,7 @@ public class Searcher {
                 }
             };
 
-            String field = "paragraph";
+            String field = "paragraphAnalyzer";
             QueryParser parser = new QueryParser(field, a);
             String queryString = VNCharacterUtils.removeAccent(VNCoreNLP.useVNCoreNLP(search));
             //String queryString = (search);
@@ -72,9 +72,11 @@ public class Searcher {
             for (ScoreDoc scoreDoc : docs.scoreDocs) {
                 //double score = scoreDoc.score;
                 Document documentFromSearch = indexSearcher.doc(scoreDoc.doc);
+                String docId = documentFromSearch.get("docId");
+                String url = documentFromSearch.get("url");
                 String title = documentFromSearch.get("title");
                 String description = documentFromSearch.get("description");
-                String paragraph = documentFromSearch.get("paragraph0");
+                String paragraph = documentFromSearch.get("paragraph");
                 
                 int count = 0;
                 DataTextHighlight dta = getPara(search, paragraph, "...", 0, count);
@@ -82,7 +84,7 @@ public class Searcher {
                 
                 //str = str + rank + " " + description + "@";
                 //System.out.printf("%-10d%-150s\n", rank, description, score, title);
-                list.add(new com.webservice.dto.Document("docId",title, description,dta.getParagraphShort(),dta.getTermQuery()));
+                list.add(new com.webservice.dto.DocumentSearch(docId,url,title,description,dta.getParagraphShort(),dta.getTermQuery()));
                 //rank++;
             }
             index.close();
@@ -116,7 +118,7 @@ public class Searcher {
                         i = paragraph.indexOf(ts[j].replaceAll("_", " "), i + ts[j].length());
                         if(i==-1) continue;
                     }
-                    System.out.println("----------1------------");
+                    //System.out.println("----------1------------");
                     //int i = paragraph.indexOf("Giảng viên");
                     if (i > 40 && i != -1) {
                     	listTerm = listTerm + ts[j] + "@";
@@ -268,5 +270,135 @@ public class Searcher {
         }
         //System.out.println(para0);
         return new DataTextHighlight(para0,listTerm.substring(0, listTerm.length()-1));
+    }
+    
+    public List<com.webservice.dto.Document> SearchDocumentCategory(String pathIndex, String search) {
+        List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
+        try {
+            //String pathIndex = "D:\\lucene\\IndexJson";
+
+            //CharArraySet stopWords = Stopword.getStopwords();
+
+            Analyzer a = new Analyzer() {
+                @Override
+                protected Analyzer.TokenStreamComponents createComponents(String fieldName) {
+                    // Step 1: tokenization (Lucene's StandardTokenizer is suitable for most text retrieval occasions)
+                    Analyzer.TokenStreamComponents ts = new Analyzer.TokenStreamComponents(new StandardTokenizer());
+                    // Step 2: transforming all tokens into lowercased ones (recommended for the majority of the problems)
+                    ts = new Analyzer.TokenStreamComponents(ts.getTokenizer(), new LowerCaseFilter(ts.getTokenStream()));
+
+                    //ts = new Analyzer.TokenStreamComponents(ts.getTokenizer(), new StopFilter(ts.getTokenStream(), stopWords));
+                    return ts;
+                }
+            };
+
+            String field = "paragraphAnalyzer";
+            QueryParser parser = new QueryParser(field, a);
+            String queryString = VNCharacterUtils.removeAccent(VNCoreNLP.useVNCoreNLP(search));
+            //String queryString = (search);
+            Query query = parser.parse(queryString);
+            System.out.println(query);
+
+            Directory dir = FSDirectory.open(new File(pathIndex).toPath());
+            IndexReader index = DirectoryReader.open(dir);
+
+            indexSearcher = new IndexSearcher(index);
+
+            int top = 20;
+            TopDocs docs = indexSearcher.search(query, top);
+
+            //System.out.printf("%-10s%-150s\n", "Rank", "Description", "Score", "Title");
+            //int rank = 1;
+            for (ScoreDoc scoreDoc : docs.scoreDocs) {
+                //double score = scoreDoc.score;
+                Document documentFromSearch = indexSearcher.doc(scoreDoc.doc);
+                String docId = documentFromSearch.get("docId");
+                String url = documentFromSearch.get("url");
+                String title = documentFromSearch.get("title");
+                String description = documentFromSearch.get("description");
+                //String paragraph = documentFromSearch.get("paragraph");
+                
+                int count = 0;
+                //DataTextHighlight dta = getPara(search, paragraph, "...", 0, count);
+                //System.out.println(str);
+                
+                //str = str + rank + " " + description + "@";
+                //System.out.printf("%-10d%-150s\n", rank, description, score, title);
+                list.add(new com.webservice.dto.Document(docId,url,title, description));
+                //rank++;
+            }
+            index.close();
+            dir.close();
+        } catch (Exception e) {
+            System.err.println("err: seacher" + e);
+        }
+        //System.out.println(str);
+        
+        return list;
+    }
+    
+    public List<com.webservice.dto.Document> SearchDocumentTitle(String pathIndex, String search) {
+        List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
+        try {
+            //String pathIndex = "D:\\lucene\\IndexJson";
+
+            //CharArraySet stopWords = Stopword.getStopwords();
+
+            Analyzer a = new Analyzer() {
+                @Override
+                protected Analyzer.TokenStreamComponents createComponents(String fieldName) {
+                    // Step 1: tokenization (Lucene's StandardTokenizer is suitable for most text retrieval occasions)
+                    Analyzer.TokenStreamComponents ts = new Analyzer.TokenStreamComponents(new StandardTokenizer());
+                    // Step 2: transforming all tokens into lowercased ones (recommended for the majority of the problems)
+                    ts = new Analyzer.TokenStreamComponents(ts.getTokenizer(), new LowerCaseFilter(ts.getTokenStream()));
+
+                    //ts = new Analyzer.TokenStreamComponents(ts.getTokenizer(), new StopFilter(ts.getTokenStream(), stopWords));
+                    return ts;
+                }
+            };
+
+            String field = "titleAnalyzer";
+            QueryParser parser = new QueryParser(field, a);
+            String queryString = VNCharacterUtils.removeAccent(VNCoreNLP.useVNCoreNLP(search));
+            //String queryString = (search);
+            Query query = parser.parse(queryString);
+            System.out.println(query);
+
+            Directory dir = FSDirectory.open(new File(pathIndex).toPath());
+            IndexReader index = DirectoryReader.open(dir);
+
+            indexSearcher = new IndexSearcher(index);
+
+            int top = 100;
+            TopDocs docs = indexSearcher.search(query, top);
+
+            //System.out.printf("%-10s%-150s\n", "Rank", "Description", "Score", "Title");
+            //int rank = 1;
+            for (ScoreDoc scoreDoc : docs.scoreDocs) {
+                //double score = scoreDoc.score;
+                Document documentFromSearch = indexSearcher.doc(scoreDoc.doc);
+                String docId = documentFromSearch.get("docId");
+                String url = documentFromSearch.get("url");
+                String title = documentFromSearch.get("title");
+                String description = documentFromSearch.get("description");
+                //String paragraph = documentFromSearch.get("paragraph0");
+                
+                int count = 0;
+                //DataTextHighlight dta = getPara(search, paragraph, "...", 0, count);
+                //System.out.println(str);
+                
+                //str = str + rank + " " + description + "@";
+                //System.out.printf("%-10d%-150s\n", rank, description, score, title);
+                list.add(new com.webservice.dto.Document(docId,url,title, description));
+                //rank++;
+            }
+            index.close();
+            dir.close();
+        } catch (Exception e) {
+            System.err.println("err: seacher" + e);
+        }
+        //System.out.println(str);
+        
+        return list;
     }
 }

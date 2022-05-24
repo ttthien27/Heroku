@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.webservice.dto.DocumentSearch;
 import com.webservice.dto.Document;
 import com.webservice.lucene.*;
 
@@ -30,24 +31,24 @@ public class LuceneAPI {
         return "Hello World";
     }
 	
-	@RequestMapping(value = "/showStr", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/showStr", method = RequestMethod.GET)
     @ResponseBody
-    public Document showStr() {
-    	Document document = new Document("Test","Test", "Test");
+    public DocumentSearch showStr() {
+		DocumentSearch document = new DocumentSearch("Test","Test", "Test");
         return document;
-    }
+    }*/
 
-	@RequestMapping(value = "/showStrtoStr", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/showStrtoStr", method = RequestMethod.GET)
     @ResponseBody
-    public Document showStrtoStr(@RequestBody ObjectNode objectNode) {
+    public DocumentSearch showStrtoStr(@RequestBody ObjectNode objectNode) {
     	String str=objectNode.get("str").asText();
-    	Document document = new Document(str,str, str);
+    	DocumentSearch document = new DocumentSearch(str,str, str);
         return document;
-    }
+    }*/
 	
 	@RequestMapping(value = "/getFile", method = RequestMethod.GET)
 	@ResponseBody
-    public Document getFileRoot() throws IOException {
+    public DocumentSearch getFileRoot() throws IOException {
 		String string = "src/main/resources/Txt/test.txt";
 		fr = new FileReader(string);
         String str = new String();
@@ -55,36 +56,56 @@ public class LuceneAPI {
         while ((i = fr.read()) != -1) {
             str = str + (char) i;
         }
-        Document document = new Document(str,str, str);
+        DocumentSearch document = new DocumentSearch(str,str, str);
         return document;
     }
 	
-	@RequestMapping(value = "/searchDocument", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/searchDocument", method = RequestMethod.GET)
     @ResponseBody
-    public List<Document> showDocument(@RequestBody ObjectNode objectNode) {
+    public List<DocumentSearch> showDocument(@RequestBody ObjectNode objectNode) {
 		String query=objectNode.get("query").asText();
-		List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
+		List<com.webservice.dto.DocumentSearch> list = new ArrayList<com.webservice.dto.DocumentSearch>();
 		Searcher s = new Searcher();
 		list = s.Search("src/main/resources/Index/", query);
         return list;
+    }*/
+	
+	@RequestMapping(value = "/searchDocument", method = RequestMethod.POST)
+    @ResponseBody
+    public List<DocumentSearch> searchDocument(@RequestBody ObjectNode objectNode) {
+		String query=objectNode.get("query").asText();
+		List<com.webservice.dto.DocumentSearch> list = new ArrayList<com.webservice.dto.DocumentSearch>();
+		Searcher s = new Searcher();
+		list = s.Search("${project.basedir}/Index/", query);
+        return list;
     }
 	
-	@RequestMapping(value = "/showDocument", method = RequestMethod.POST)
+	@RequestMapping(value = "/searchDocumentCategory", method = RequestMethod.POST)
     @ResponseBody
-    public List<Document> showDocument2(@RequestBody ObjectNode objectNode) {
+    public List<Document> searchDocumentCategory(@RequestBody ObjectNode objectNode) {
 		String query=objectNode.get("query").asText();
 		List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
 		Searcher s = new Searcher();
-		list = s.Search("src/main/resources/Index/", query);
+		list = s.SearchDocumentCategory("src/main/resources/Index/", query);
+        return list;
+    }
+	
+	@RequestMapping(value = "/searchDocumentTitle", method = RequestMethod.POST)
+    @ResponseBody
+    public List<Document> searchDocumentTitle(@RequestBody ObjectNode objectNode) {
+		String query=objectNode.get("query").asText();
+		List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
+		Searcher s = new Searcher();
+		list = s.SearchDocumentTitle("src/main/resources/Index/", query);
         return list;
     }
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
     @ResponseBody
-    public List<Document> search(@RequestParam String query) {
+    public List<DocumentSearch> search(@RequestParam String query) {
 		String str = query.replaceAll("@", " ");
 		System.out.println(str);
-		List<com.webservice.dto.Document> list = new ArrayList<com.webservice.dto.Document>();
+		List<com.webservice.dto.DocumentSearch> list = new ArrayList<com.webservice.dto.DocumentSearch>();
 		Searcher s = new Searcher();
 		list = s.Search("src/main/resources/Index/", str);
         return list;
