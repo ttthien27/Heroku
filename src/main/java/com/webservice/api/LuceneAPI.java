@@ -76,7 +76,7 @@ public class LuceneAPI {
 		String query=objectNode.get("query").asText();
 		List<com.webservice.dto.DocumentSearch> list = new ArrayList<com.webservice.dto.DocumentSearch>();
 		Searcher s = new Searcher();
-		list = s.Search("${project.basedir}/Index/", query);
+		list = s.Search("src/main/resources/Index/", query);
         return list;
     }
 	
